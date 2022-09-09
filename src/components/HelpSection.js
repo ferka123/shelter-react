@@ -5,7 +5,7 @@ import { helpData } from "../data/help";
 
 export default function HelpSection() {
   return (
-    <StyledHelpSection>
+    <StyledHelpSection id="help-shelter">
       <Container>
         <h3>
           How you can help <br /> our shelter
@@ -14,7 +14,7 @@ export default function HelpSection() {
           {helpData.map((item) => {
             return (
               <li key={item.id}>
-                <img src={item.icon} />
+                <img src={item.icon} alt={item.name}/>
                 <p>{item.name}</p>
               </li>
             );

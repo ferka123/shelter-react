@@ -13,6 +13,7 @@ const StyledAboutSection = styled.section`
     h3 {
       font-family: "Georgia";
       font-size: 35px;
+      font-weight: 400;
       line-height: 1.3;
       color: #545454;
       margin-bottom: 25px;
