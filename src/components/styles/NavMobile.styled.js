@@ -10,6 +10,7 @@ const StyledMobileNav = styled.nav`
   transition: 0.4s;
   visibility: hidden;
   opacity: 0;
+  z-index: 2;
   &.opened {
     visibility: visible;
     opacity: 1;
@@ -32,7 +33,7 @@ export const StyledBurgerIcon = styled.svg`
   stroke: ${(props) => props.theme.burgerIconColor};
   transition: 0.3s;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
   &.opened {
     position: fixed;
     right: 40px;

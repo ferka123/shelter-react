@@ -6,8 +6,7 @@ import DonationSection from "../components/DonationSection";
 export default function OurPets() {
   return (
     <>
-      <HelpSection />
-      <DonationSection/>
+      <Test />
     </>
   );
 }

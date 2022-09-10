@@ -26,8 +26,14 @@ const Button = styled.a`
 `;
 
 export const RoundButton = styled.a`
+  display: block;
+  width: max-content;
   width: 52px;
   height: 52px;
+  text-align: center;
+  line-height: 45px;
+  font-family: Georgia;
+  font-size: 20px;
   border: 2px solid #f1cdb3;
   border-radius: 100px;
   flex-shrink: 0;

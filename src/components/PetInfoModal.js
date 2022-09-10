@@ -16,7 +16,12 @@ export default function PetInfoModal({ id, show, setModal }) {
   };
 
   useEffect(() => {
-    setPetInfo(pets.find((pet) => pet.id === id) ?? {});
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setPetInfo(data.find((pet) => pet.id === id) ?? {});
+      })
+      .catch((e) => console.log(e));
   }, [id]);
 
   return (
@@ -26,32 +31,32 @@ export default function PetInfoModal({ id, show, setModal }) {
           $icon={buttonImg}
           onClick={() => setModal({ show: false, id: id })}
         ></RoundButton>
-        <img src={petInfo.img} alt={petInfo.name} />
+        <img src={petInfo.primary_photo_cropped?.medium} alt={petInfo.name} />
         <div>
           <h2>{petInfo.name}</h2>
           <h3>
-            {petInfo.kind} - {petInfo.breed}
+            {petInfo.species} - {petInfo.breeds?.primary}
           </h3>
           <p>{petInfo.description}</p>
           <p>
-            <b>Sex: </b>
-            {petInfo.sex}
+            <b>Gender: </b>
+            {petInfo.gender}
           </p>
           <p>
             <b>Age: </b>
-            {formatAge(petInfo.age)}
+            {petInfo.age}
           </p>
           <p>
-            <b>Innoculations: </b>
-            {petInfo.innoculations}
+            <b>Shots: </b>
+            {petInfo.attributes?.shots_current ? "Current" : "None"}
           </p>
           <p>
-            <b>Deseases: </b>
-            {petInfo.deseases}
+            <b>Spayed/Neutered: </b>
+            {petInfo.attributes?.spayed_neutered ? "Yes" : "No"}
           </p>
           <p>
-            <b>Parasites: </b>
-            {petInfo.parasites}
+            <b>Housetrained: </b>
+            {petInfo.attributes?.house_trained ? "Yes" : "No"}
           </p>
         </div>
       </div>

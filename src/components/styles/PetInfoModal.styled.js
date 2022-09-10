@@ -32,6 +32,8 @@ const StyledPetInfoModal = styled.div`
     img {
       flex-shrink: 0;
       width: 55.55%;
+      aspect-ratio: 1 / 1; 
+      object-fit: cover;
       @media (max-width: 730px) {
         display: none;
       }
