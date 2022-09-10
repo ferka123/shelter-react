@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import StyledPetSlider from "./styles/PetSlider.styled";
 import Slider from "react-slick";
 
+import { PetDataContext } from "../pages/SharedLayout";
 import PetCard from "./PetCard";
 import PetInfoModal from "./PetInfoModal";
 
@@ -10,17 +11,8 @@ import arrowLeft from "../assets/svg/arrow_left.svg";
 import arrowRight from "../assets/svg/arrow_right.svg";
 
 export default function PetSliderSlick() {
-  const [modal, setModal] = useState({ show: false, id: null });
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        data.length = 10;
-        setData(data);
-      })
-      .catch((e) => console.log(e));
-  }, []);
+  const [modal, setModal] = useState({ show: false, payload: null });
+  const { data } = useContext(PetDataContext);
   const settings = {
     infinite: true,
     speed: 300,
@@ -54,16 +46,14 @@ export default function PetSliderSlick() {
             return (
               <PetCard
                 key={pet.id}
-                id={pet.id}
-                name={pet.name}
-                img={pet.primary_photo_cropped.medium}
+                payload={pet}
                 setModal={setModal}
               />
             );
           })}
         </Slider>
       )}
-      <PetInfoModal id={modal.id} show={modal.show} setModal={setModal} />
+      <PetInfoModal payload={modal.payload} show={modal.show} setModal={setModal} />
     </StyledPetSlider>
   );
 }

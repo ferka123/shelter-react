@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -26,7 +26,10 @@ const secondaryTheme = {
   bg: "white",
 };
 
+export const PetDataContext = createContext(null);
+
 export default function SharedLayout() {
+  const [petData, setPetData] = useState({ data: [], loading: true });
   const [theme, setTheme] = useState(primaryTheme);
   const { pathname } = useLocation();
 
@@ -37,12 +40,23 @@ export default function SharedLayout() {
       setTheme(secondaryTheme);
     }
   }, [pathname]);
+
+  useEffect(() => {
+    fetch("/data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setPetData({ data, loading: false });
+      })
+      .catch((e) => console.log(e));
+  }, []);
   return (
     <>
       <ThemeProvider theme={theme}>
         <Header />
       </ThemeProvider>
-      <Outlet />
+      <PetDataContext.Provider value={petData}>
+        <Outlet />
+      </PetDataContext.Provider>
       <Footer />
     </>
   );

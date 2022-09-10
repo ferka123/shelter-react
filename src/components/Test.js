@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Slider from "react-slick";
 import PetCard from "./PetCard";
 import PetInfoModal from "./PetInfoModal";
@@ -8,22 +8,12 @@ import Container from "./styles/Container";
 import { RoundButton } from "./styles/Button";
 import loaderSvg from "../assets/svg/loader.svg";
 
+import { PetDataContext } from "../pages/SharedLayout";
+
 export default function Test() {
-  const [loading, setLoading] = useState(true);
+  const { loading, data } = useContext(PetDataContext);
+  const [modal, setModal] = useState({ show: false, payload: null });
 
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch((e) => console.log(e));
-  }, []);
-
-  const [modal, setModal] = useState({ show: false, id: null });
-  
   const settings = {
     dots: true,
     infinite: false,
@@ -70,19 +60,15 @@ export default function Test() {
           <Slider {...settings}>
             {data.map((pet) => {
               //const { id, name, img } = pet;
-              return (
-                <PetCard
-                  key={pet.id}
-                  id={pet.id}
-                  name={pet.name}
-                  img={pet.primary_photo_cropped.medium}
-                  setModal={setModal}
-                />
-              );
+              return <PetCard key={pet.id} payload={pet} setModal={setModal} />;
             })}
           </Slider>
         )}
-        <PetInfoModal id={modal.id} show={modal.show} setModal={setModal} />
+        <PetInfoModal
+          payload={modal.payload}
+          show={modal.show}
+          setModal={setModal}
+        />
       </Container>
     </StyledSection>
   );
@@ -134,8 +120,8 @@ const StyledSection = styled.section`
     display: block;
   }
   .slick-disabled {
-    color: #CDCDCD;
-    border-color: #CDCDCD !important;
+    color: #cdcdcd;
+    border-color: #cdcdcd !important;
     background: none !important;
   }
 `;

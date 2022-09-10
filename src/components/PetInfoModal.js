@@ -5,31 +5,26 @@ import { pets } from "../data/pets";
 import { RoundButton } from "./styles/Button";
 import buttonImg from "../assets/svg/close.svg";
 
-export default function PetInfoModal({ id, show, setModal }) {
+export default function PetInfoModal({ payload, show, setModal }) {
   const modalRef = useRef(null);
   const [petInfo, setPetInfo] = useState({});
 
   const handleOutsideClick = (e) => {
     if (!modalRef.current.contains(e.target)) {
-      setModal({ show: false, id: id });
+      setModal({ show: false, payload: payload });
     }
   };
 
   useEffect(() => {
-    fetch("/data.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setPetInfo(data.find((pet) => pet.id === id) ?? {});
-      })
-      .catch((e) => console.log(e));
-  }, [id]);
+    if (payload) setPetInfo(payload);
+  }, [payload]);
 
   return (
     <StyledPetInfoModal $show={show} onClick={handleOutsideClick}>
       <div ref={modalRef}>
         <RoundButton
           $icon={buttonImg}
-          onClick={() => setModal({ show: false, id: id })}
+          onClick={() => setModal({ show: false, payload: payload })}
         ></RoundButton>
         <img src={petInfo.primary_photo_cropped?.medium} alt={petInfo.name} />
         <div>
