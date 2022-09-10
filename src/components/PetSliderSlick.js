@@ -41,8 +41,7 @@ export default function PetSliderSlick() {
     <StyledPetSlider>
       {data.length && (
         <Slider {...settings}>
-          {data.map((pet) => {
-            //const { id, name, img } = pet;
+          {data.slice(0,8).map((pet) => {
             return (
               <PetCard
                 key={pet.id}
